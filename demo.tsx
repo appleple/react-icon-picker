@@ -10,19 +10,26 @@ const icons = [
 ];
 
 const App = () => {
+
   const [state, setState] = React.useState({
     icon: ''
   });
-  return (<IconPicker 
-    icons={icons} 
-    defaultValue="fas fa-camera" 
-    onChange={(icon) => {
-      setState({
-        ...state,
-        icon
-      })
-    }}
-  />);
+
+  return (<>
+    <div>
+      <span className={state.icon}></span>
+    </div>
+    <IconPicker 
+      icons={icons} 
+      defaultValue="fas fa-camera" 
+      onChange={(icon) => {
+        setState({
+          ...state,
+          icon
+        })
+      }}
+    />
+  </>);
 }
 
 render(<App />, document.getElementById('root'))
