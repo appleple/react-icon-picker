@@ -1,7 +1,12 @@
 # React IconPicker
 
+## Screen Capture
+
+![](./screen-shot.png)
+
 
 ## Usage
+
 ```js
 import * as React from 'react';
 import IconPicker from 'react-icon-picker';
