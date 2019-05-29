@@ -4,6 +4,10 @@
 
 ![](./screen-shot.png)
 
+## Install
+```sh
+$ npm install react-icon-picker --save-dev
+```
 
 ## Usage
 
