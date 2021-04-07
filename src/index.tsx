@@ -44,6 +44,20 @@ const IconListInner = styled.div`
   height: 100%;
 `;
 
+const IconListSearch = styled.div`
+  border: 1px solid #CCC;
+  top: 0;
+  left: 0;
+  width: 100%;
+`;
+
+const SearchBox = styled.input`
+  padding: 8px;
+  color: #333;
+  border: 1px solid #FFF;
+  border-radius: 4px;
+`
+
 const IconList = styled.ul`
   list-style: none;
   margin: 0;
@@ -112,9 +126,15 @@ interface IconPickerProps {
 
 export default (props: IconPickerProps) => {
   let button: HTMLButtonElement;
+  let searchInput: HTMLInputElement;
   let listener: EventListener;
-  const icons = props.icons || [];
-
+  
+  const iconLists = props.icons || [];
+  const [iconState, setIconState] = React.useState({
+    icons: iconLists,
+    search: ''
+  });
+  
   const [state, setState] = React.useState({
     icon: props.defaultValue ? props.defaultValue : '',
     isOpen: false,
@@ -122,14 +142,17 @@ export default (props: IconPickerProps) => {
     left: 0
   });
   const { icon, isOpen, top, left } = state;
+  const { icons, search } = iconState;
 
   React.useEffect(() => {
     listener = (e) => {
-      if (e.target !== button && (!button.children || e.target !== button.children[0])) {
-        setState({
-          ...state,
-          isOpen: false
-        })
+      if(isOpen && button !== null){
+        if (e.target !== button && e.target !== searchInput && (!button.children || e.target !== button.children[0]) ) {
+            setState({
+                ...state,
+                isOpen: false
+            })
+        }
       }
     };
     document.addEventListener('click', listener);
@@ -137,6 +160,12 @@ export default (props: IconPickerProps) => {
       document.removeEventListener('click', listener);
     };
   });
+  
+  const onIconSearch = (e) => {
+    let value = e.target.value;
+    let newIcons = iconLists.filter((icon) => icon.includes(value));
+    setIconState({ icons: newIcons, search: value});
+  }
 
   const selectIcon = (icon: string) => {
     setState({ ...state, icon });
@@ -165,6 +194,9 @@ export default (props: IconPickerProps) => {
     <div style={{ position: 'relative' }}>
       {isOpen && <IconListWrap style={{ top: `${top + 45}px`, left: `${left}px` }}>
         <IconListInner>
+          <IconListSearch>
+              <SearchBox type="text" style={{ width: '100%' }} value={search} onChange={onIconSearch} ref={(input) => {searchInput = input;}}/>
+          </IconListSearch>
           <IconList>
             {icons.map((icon, index) => {
               return (<IconItem key={index} onClick={() => {
