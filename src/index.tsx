@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 const IconListWrap = styled.div`
-  position: fixed;
   top: 10px;
   left: 0;
   max-width: 240px;
